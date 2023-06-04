@@ -9,8 +9,13 @@ func routes(_ app: Application) throws {
         "Hello, world!"
     }
     
-    app.get("movies") { req async -> String in
-        "Movie Route"
+    app.get("movies") { req async in
+        [Movie(title: "Batman", year: 2020), Movie(title: "Spider Man", year: 2021), Movie(title: "Iron Man", year: 2022)]
+    }
+    
+    app.post("movie") { req async throws in
+        let movie = try req.content.decode(Movie.self)
+        return movie
     }
     
     // Strongly typed route parameters
