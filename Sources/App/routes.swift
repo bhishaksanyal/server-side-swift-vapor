@@ -59,4 +59,6 @@ func routes(_ app: Application) throws {
         "users index called"
     }
     
+    try app.register(collection: ProfileController())
+    
 }
