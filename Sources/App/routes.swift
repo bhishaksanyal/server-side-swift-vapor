@@ -57,10 +57,16 @@ func routes(_ app: Application) throws {
     
     
     // Groups
-    let users = app.grouped("users")
-    users.get { req async throws in
-        "users index called"
+    app.grouped(AuthMiddleware()).group("users") { route in
+        route.get { req async throws in
+            "users index called"
+        }
+        
+        route.get("hello") { req async throws in
+            "users hello called"
+        }
     }
+    
     
     try app.register(collection: ProfileController())
     
