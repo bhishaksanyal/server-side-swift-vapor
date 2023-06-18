@@ -9,9 +9,32 @@ func routes(_ app: Application) throws {
         return movie
     }
     
-    // fetch movies
+    // get all movies
+    // /movies
     app.get("movies") { req async throws in
         try await Movie.query(on: req.db)
             .all()
     }
+    
+    // get movie by id
+    // /movies/E0FC2AEA-4EAA-4BD4-91C2-0306FFC6F47D
+    app.get("movies", ":id") { req async throws in
+        guard let movie = try await Movie.find(req.parameters.get("id"), on: req.db) else {
+            throw Abort(.badRequest)
+        }
+        
+        return movie
+    }
+    
+    // delete a movie
+    // movies/E0FC2AEA-4EAA-4BD4-91C2-0306FFC6F47D
+    app.delete("movies", ":id") { req async throws in
+        guard let movie = try await Movie.find(req.parameters.get("id"), on: req.db) else {
+            throw Abort(.badRequest)
+        }
+        
+        try await movie.delete(on: req.db)
+        return movie
+    }
+    
 }
