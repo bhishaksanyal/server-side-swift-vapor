@@ -37,4 +37,19 @@ func routes(_ app: Application) throws {
         return movie
     }
     
+    // update a movie
+    // /movies
+    app.put("movies") { req async throws in
+        let movie = try req.content.decode(Movie.self)
+        guard let movieToUpdate = try await Movie.find(movie.id, on: req.db) else {
+            throw Abort(.badRequest)
+        }
+        
+        movieToUpdate.title = movie.title
+        
+        try await movieToUpdate.update(on: req.db)
+        
+        return movieToUpdate
+    }
+    
 }
