@@ -11,6 +11,9 @@ public func configure(_ app: Application) async throws {
     
     // register migrations
     app.migrations.add(CreateNewUsersTable())
+    
+    // register controllers
+    try app.register(collection: ApiController())
 
     // register routes
     try routes(app)

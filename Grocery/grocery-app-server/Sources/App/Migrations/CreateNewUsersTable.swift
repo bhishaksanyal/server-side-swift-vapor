@@ -17,7 +17,6 @@ struct CreateNewUsersTable: AsyncMigration {
             .id()
             .field("username", .string, .required).unique(on: "username")
             .field("password", .string, .required)
-            .field("createdOn", .datetime, .required)
             .create()
     }
     

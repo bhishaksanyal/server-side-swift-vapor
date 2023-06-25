@@ -22,22 +22,17 @@ final class User: Model, Content, Validatable {
     @Field(key: "password")
     var password: String
     
-    @Field(key: "createdOn")
-    var createdOn: String
-    
     init() {  }
     
-    init(id: UUID? = nil, username: String, password: String, createdOn: String) {
+    init(id: UUID? = nil, username: String, password: String) {
         self.id = id
         self.username = username
         self.password = password
-        self.createdOn = createdOn
     }
     
     static func validations(_ validations: inout Validations) {
         validations.add("username", as: String.self, is: !.empty, customFailureDescription: "Username should not be empty")
         validations.add("password", as: String.self, is: !.empty, customFailureDescription: "Password should not be empty")
-        validations.add("createdOn", as: String.self, is: !.empty, customFailureDescription: "Timestamp should not be empty")
         
         validations.add("password", as: String.self, is: .count(6...10), customFailureDescription: "Password should be 6 to 10 character long")
     }
